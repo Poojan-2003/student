@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "400202943552",
+    "project_id": "zeroxapp-d0699",
+    "storage_bucket": "zeroxapp-d0699.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400202943552:android:f0f3352fdc050bbda523a5",
+        "android_client_info": {
+          "package_name": "com.example.student"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "400202943552-g8utnpdgfdv7lteg8m419vq2v72593gr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqYI_PXKUUF2prwx1xRGYQaT6A7D3QOrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400202943552-g8utnpdgfdv7lteg8m419vq2v72593gr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
