@@ -36,86 +36,102 @@ class _PreviousDATAState extends State<PreviousDATA> {
     super.initState();
     view_data();
   }
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('pdf')
-              .where('uid', isEqualTo: uid)
-              .snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, i) {
-                    var data = snapshot.data!.docs[i];
-                    return Center(
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(height: 40,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("FileName : ",style: TextStyle(fontSize: 25,fontFamily: 'Times New Roman'),),
-                                Text(data['filename'],style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
+    return Scaffold(
+      backgroundColor: Colors.grey[300],
+      body: SafeArea(
 
-                              ],
-                            ),
-                                SizedBox(height: 10,),
-                             TextButton.icon(
-                               onPressed: ()async{_launchUrl(data['FileLink']);},
-                               icon: Icon(Icons.download,size: 25,),
-                             label: Text("Download File",style: TextStyle(fontSize: 20),),
+        child: SingleChildScrollView(
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('pdf')
+                .where('uid', isEqualTo: uid)
+                .snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, i) {
+                      var data = snapshot.data!.docs[i];
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 40,),
+                             
+                              FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("FileName : ",style: TextStyle(fontSize: 25,fontFamily: 'Times New Roman'),),
+                                    Text(data['filename'],style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
 
-                             ),
-                              SizedBox(height: 10,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Date Of Printing :",style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
-                                  Text(data['Day'],style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
-                                  Text("-"),
-                                  Text(data['Month'],style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
-                                  Text("-"),
-                                  Text(data['year'],style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
-                                ],
+                                  ],
+                                ),
                               ),
-                              SizedBox(height: 10,),
+                                  SizedBox(height: 10,),
+                               TextButton.icon(
+                                 onPressed: ()async{_launchUrl(data['FileLink']);},
+                                 icon: Icon(Icons.download,size: 25,),
+                               label: Text("Download File",style: TextStyle(fontSize: 20),),
+
+                               ),
+                                SizedBox(height: 10,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Date Of Printing :",style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
+                                    Text(data['Day'],style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
+                                    Text("-"),
+                                    Text(data['Month'],style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
+                                    Text("-"),
+                                    Text(data['year'],style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
+
+                                  ],
+                                ),
+                                SizedBox(height: 10,),
 
                               Divider(
-                                thickness: 0.5,
-                                endIndent: 15,
-                                indent: 15,
+                                thickness: 1,
                                 color: Colors.black,
-                              ),
-                              SizedBox(height: 10,),
-                            Divider(
-                              thickness: 0.5,
-                              endIndent: 15,
-                              indent: 15,
-                              color: Colors.black,
-                            ),
+                                endIndent: 10,
+                                indent: 10,
+                              )
 
-                          ],
+
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }
+                      );
+                    }
+                );
+              }
+              else return Scaffold(
+                body: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("No Data Found!")
+                    ],
+                  ),
+                ),
               );
-            }
-            else return CircularProgressIndicator();
-          },
+            },
+          ),
         ),
       ),
     );
 
+  }
+
+  addnum(int i) {
+    i++;
   }
 }
