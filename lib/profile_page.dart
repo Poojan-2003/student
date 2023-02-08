@@ -27,16 +27,25 @@ class _ProfilePageState extends State<ProfilePage> {
 
     final googleCurrentUser =
         GoogleSignIn().currentUser ;
-    if (googleCurrentUser != null){
-      await GoogleSignIn().signOut();
-      await GoogleSignIn().disconnect();}
+    if (googleCurrentUser != null) {
+      await GoogleSignIn().disconnect();
+      await FirebaseAuth.instance.signOut();
+    }
     await FirebaseAuth.instance.signOut();
   }
 
 
 double screenWidth= 0;
   double screenHeigth = 0;
-
+Future<void> get() async {
+  if(user.displayName == null){
+    var snapshot = FirebaseFirestore.instance
+        .collection('user')
+        .where('email',isEqualTo: user.email)
+        .snapshots();
+    // user.displayName = "abc";
+  }
+}
 
   @override
   Widget build(BuildContext context) {

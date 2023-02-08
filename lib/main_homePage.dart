@@ -101,6 +101,11 @@ class _MainHomePageState extends State<MainHomePage> {
 
   Future selectFile() async {
     final result = await FilePicker.platform.pickFiles();
+    showDialog(context: context, builder: (context){
+      return Center(child: CircularProgressIndicator(
+        color: Colors.black,
+      ),);
+    });
     if (result == null) return;
     final path = result.files.single.path!;
     setState(() {
@@ -119,6 +124,7 @@ class _MainHomePageState extends State<MainHomePage> {
         .getDownloadURL();
     print(url);
     print("Uploaded");
+    Navigator.of(context).pop();
 
     Fluttertoast.showToast(
         msg: "PDF Uploaded Successfully",
@@ -137,9 +143,14 @@ class _MainHomePageState extends State<MainHomePage> {
     super.initState();
     getToken();
   }
+  double screenWidth= 0;
+  double screenHeigth = 0;
 
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
+    screenHeigth = MediaQuery.of(context).size.height;
+    final fileName = file != null ? Path.basename(file!.path) : 'No File Selected';
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 50,
@@ -220,12 +231,34 @@ class _MainHomePageState extends State<MainHomePage> {
 
                       ),
                     ),
+
                     SizedBox(width: 80,),
+
                     // PdfBtn(),
                     InkResponse(
                       onTap: selectFile,
                       child: Icon(Icons.file_copy, size: 30,),)
 
+                  ],
+                ),
+              ),
+              SizedBox(height: 40,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("Selected FileName : ",style: TextStyle(fontFamily: "Times New Roman",fontSize: 25),)
+                ],
+              ),
+              SizedBox(height: 20,),
+              FittedBox(
+                  fit: BoxFit.fitWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(fileName,style: TextStyle(fontSize: 20,fontFamily: "Times New Roman"),
+                    )
                   ],
                 ),
               ),

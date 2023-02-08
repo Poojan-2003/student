@@ -112,15 +112,12 @@ class _PreviousDATAState extends State<PreviousDATA> {
                     }
                 );
               }
-              else return Scaffold(
-                body: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+              else return Container(
+                child: Center(
+                  child: Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("No Data Found!")
-                    ],
-                  ),
+                      Text("No Data Found")
+                    ],),
                 ),
               );
             },
