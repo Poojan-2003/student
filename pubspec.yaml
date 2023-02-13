@@ -47,15 +47,16 @@ dependencies:
   sign_in_with_apple: ^4.3.0
   firebase_storage: ^11.0.10
   flutter_document_picker: ^5.1.0
-  fluttertoast: ^8.1.2
   firebase_app_check: ^0.1.1+8
   file_picker: ^5.2.5
   image_picker: ^0.8.6+1
   url_launcher: ^6.1.8
   path_provider: ^2.0.12
-  dio: ^4.0.6
+#  dio: ^4.0.6
   flutter_local_notifications: ^13.0.0
-  firebase_messaging: ^14.2.1
+  firebase_messaging: ^14.2.2
+  toast: ^0.3.0
+#  fluttertoast: ^8.1.2
 
 
 

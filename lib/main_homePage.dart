@@ -5,7 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getbloc/getbloc.dart';
 import 'package:student/Login/my_button.dart';
 import 'package:student/Login/my_textfield.dart';
@@ -14,6 +14,7 @@ import 'dart:io';
 import 'package:student/btn2.dart';
 import 'package:student/pdf_upload.dart';
 import 'package:path/path.dart' as Path;
+import 'package:toast/toast.dart';
 
 
 
@@ -45,16 +46,18 @@ class _MainHomePageState extends State<MainHomePage> {
 
     String uid = auth.currentUser!.uid.toString();
     if (idController == "" || nameController == "") {
-      Fluttertoast.showToast(
-          msg: "Please Fill All Details ",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.white,
-          textColor: Colors.black,
-          fontSize: 16.0
-      );
-      return;
+      // Fluttertoast.showToast(
+      //     msg: "Please Fill All Details ",
+      //     toastLength: Toast.LENGTH_LONG,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.white,
+      //     textColor: Colors.black,
+      //     fontSize: 16.0
+      // );
+      Toast.show("Please Fill All Details", duration: Toast.lengthShort, gravity:  Toast.bottom,backgroundColor: Colors.white,textStyle: TextStyle(color: Colors.black,fontSize: 16));
+
+
     }
 
     Map<String, String>dataToSave = {
@@ -79,15 +82,17 @@ class _MainHomePageState extends State<MainHomePage> {
       'token': mtoken.toString()
     };
     FirebaseFirestore.instance.collection('pdf').add(dataToSave);
-    Fluttertoast.showToast(
-        msg: "PDF Sent Succesfully",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.white,
-        textColor: Colors.black,
-        fontSize: 16.0
-    );
+    // Fluttertoast.showToast(
+    //     msg: "PDF Sent Succesfully",
+    //     toastLength: Toast.LENGTH_LONG,
+    //     gravity: ToastGravity.BOTTOM,
+    //     timeInSecForIosWeb: 1,
+    //     backgroundColor: Colors.white,
+    //     textColor: Colors.black,
+    //     fontSize: 16.0
+    // );
+    Toast.show("PDF Sent Successfully", duration: Toast.lengthShort, gravity:  Toast.bottom,backgroundColor: Colors.white,textStyle: TextStyle(color: Colors.black,fontSize: 16));
+
   }
 
   void getToken() async {
@@ -126,15 +131,15 @@ class _MainHomePageState extends State<MainHomePage> {
     print("Uploaded");
     Navigator.of(context).pop();
 
-    Fluttertoast.showToast(
-        msg: "PDF Uploaded Successfully",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.white,
-        textColor: Colors.black,
-        fontSize: 16.0
-    );
+    // Fluttertoast.showToast(
+    //     msg: "PDF Uploaded Successfully",
+    //     toastLength: Toast.LENGTH_LONG,
+    //     gravity: ToastGravity.BOTTOM,
+    //     timeInSecForIosWeb: 1,
+    //     backgroundColor: Colors.white,
+    //     textColor: Colors.black,
+    //     fontSize: 16.0
+    // );
   }
 
   @override
