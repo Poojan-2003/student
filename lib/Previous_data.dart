@@ -22,14 +22,13 @@ class _PreviousDATAState extends State<PreviousDATA> {
   // Uri ?url;
 
   _launchUrl(String url) async{
-    // print(url);
-    // Uri uri = url as Uri;
+
     var urlf= Uri.parse(url);
-    // var urlf = Uri.parse("https://www.geeksforgeeks.org/");
+
     if(await canLaunchUrl(urlf)){
       await launchUrl(urlf,mode: LaunchMode.externalApplication);
     }else {
-     throw 'could not launch';
+     throw "Error";
     }
   }
   @override
@@ -97,13 +96,13 @@ class _PreviousDATAState extends State<PreviousDATA> {
                                 ),
                                   SizedBox(height: 20,),
 
-                                TextButton.icon(
-                                  onPressed: ()async{_launchUrl(data['FileLink']);},
-                                  icon: Icon(Icons.download,size: 25,),
-                                  label: Text("Download File",style: TextStyle(fontSize: 20),),
-
-                                ),
-                                  SizedBox(height: 40,),
+                                // TextButton.icon(
+                                //   onPressed: ()async{_launchUrl(data['FileLink']);},
+                                //   icon: Icon(Icons.download,size: 25,),
+                                //   label: Text("Download File",style: TextStyle(fontSize: 20),),
+                                //
+                                // ),
+                                  SizedBox(height: 20,),
 
                                 Divider(
                                   thickness: 1,
