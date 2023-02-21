@@ -78,10 +78,10 @@ Future<void> get() async {
               leading: Icon(
                 Icons.person_outline,
                 size: 30,
-                color: Colors.grey[700],
+                color: Colors.black,
               ),
-              title:Text('Name' ,style: TextStyle(color: Colors.black,fontSize: 20,fontWeight:FontWeight.bold,fontFamily: 'Times New Roman'),),
-                trailing:Text(user.displayName.toString(),style: TextStyle(color: Colors.grey[700],fontSize: 17,fontFamily: 'Times New Roman'),),
+              title:Text('Name ' ,style: TextStyle(color: Colors.black,fontSize: 20,fontFamily: 'Times New Roman'),),
+                trailing:Text(user.displayName.toString(),style: TextStyle(color: Colors.black,fontSize: 17,fontFamily: 'Times New Roman'),),
 
             ),
             Divider(
@@ -97,8 +97,8 @@ Future<void> get() async {
                 color: Colors.black,
 
               ),
-                title: Text('Email ' ,style: TextStyle(color: Colors.grey[700],fontSize: 20,fontWeight:FontWeight.bold,fontFamily: 'Times New Roman'),),
-                trailing: Text(user.email.toString(),style: TextStyle(color: Colors.grey[700],fontSize: 17,fontFamily: 'Times New Roman'),),
+                title: Text('Email  ' ,style: TextStyle(color: Colors.black,fontSize: 20,fontFamily: 'Times New Roman'),),
+                trailing: Text(user.email.toString(),style: TextStyle(color: Colors.black,fontSize: 17,fontFamily: 'Times New Roman'),),
 
             ),
             SizedBox(height: 200,),

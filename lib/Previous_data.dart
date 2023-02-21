@@ -12,6 +12,8 @@ class PreviousDATA extends StatefulWidget {
 }
 
 class _PreviousDATAState extends State<PreviousDATA> {
+  double screenWidth= 0;
+  double screenHeigth = 0;
   String uid ="";
   view_data(){
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -38,51 +40,49 @@ class _PreviousDATAState extends State<PreviousDATA> {
   }
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
+    screenHeigth = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
 
         child: SingleChildScrollView(
-          child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('pdf')
-                .where('uid', isEqualTo: uid)
-                .snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, i) {
-                      var data = snapshot.data!.docs[i];
-                      return Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 40,),
-                             
-                              FittedBox(
-                                fit: BoxFit.fitWidth,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("FileName : ",style: TextStyle(fontSize: 25,fontFamily: 'Times New Roman'),),
-                                    Text(data['filename'],style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
+          child: Container(
+            width: screenWidth,
+            height: screenHeigth,
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('pdf')
+                  .where('uid', isEqualTo: uid)
+                  .snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, i) {
+                        var data = snapshot.data!.docs[i];
+                        return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 40,),
 
-                                  ],
+                                FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("FileName : ",style: TextStyle(fontSize: 25,fontFamily: 'Times New Roman'),),
+                                      Text(data['filename'],style: TextStyle(fontSize: 20,fontFamily: 'Times New Roman')),
+
+                                    ],
+                                  ),
                                 ),
-                              ),
-                                  SizedBox(height: 10,),
-                               TextButton.icon(
-                                 onPressed: ()async{_launchUrl(data['FileLink']);},
-                                 icon: Icon(Icons.download,size: 25,),
-                               label: Text("Download File",style: TextStyle(fontSize: 20),),
-
-                               ),
-                                SizedBox(height: 10,),
+                                    SizedBox(height: 30,),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -95,32 +95,41 @@ class _PreviousDATAState extends State<PreviousDATA> {
 
                                   ],
                                 ),
-                                SizedBox(height: 10,),
+                                  SizedBox(height: 20,),
 
-                              Divider(
-                                thickness: 1,
-                                color: Colors.black,
-                                endIndent: 10,
-                                indent: 10,
-                              )
+                                TextButton.icon(
+                                  onPressed: ()async{_launchUrl(data['FileLink']);},
+                                  icon: Icon(Icons.download,size: 25,),
+                                  label: Text("Download File",style: TextStyle(fontSize: 20),),
+
+                                ),
+                                  SizedBox(height: 40,),
+
+                                Divider(
+                                  thickness: 1,
+                                  color: Colors.black,
+                                  endIndent: 10,
+                                  indent: 10,
+                                )
 
 
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }
+                        );
+                      }
+                  );
+                }
+                else return Container(
+                  child: Center(
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("No Data Found")
+                      ],),
+                  ),
                 );
-              }
-              else return Container(
-                child: Center(
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("No Data Found")
-                    ],),
-                ),
-              );
-            },
+              },
+            ),
           ),
         ),
       ),

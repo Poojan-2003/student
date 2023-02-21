@@ -5,7 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getbloc/getbloc.dart';
 import 'package:student/Login/my_button.dart';
 import 'package:student/Login/my_textfield.dart';
@@ -14,7 +14,9 @@ import 'dart:io';
 import 'package:student/btn2.dart';
 import 'package:student/pdf_upload.dart';
 import 'package:path/path.dart' as Path;
-import 'package:toast/toast.dart';
+
+import 'package:upi_india/upi_india.dart';
+import 'package:upi_india/upi_response.dart';
 
 
 
@@ -31,6 +33,7 @@ class _MainHomePageState extends State<MainHomePage> {
 
   final idController = TextEditingController();
   final nameController = TextEditingController();
+
   String? mtoken = " ";
 
   type_of_zerox?_typezerox;
@@ -41,21 +44,24 @@ class _MainHomePageState extends State<MainHomePage> {
   String?realfilename;
 
 
+  UpiIndia _upiIndia = UpiIndia();
+  List<UpiApp>? apps;
+
+
   saveData() async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     String uid = auth.currentUser!.uid.toString();
     if (idController == "" || nameController == "") {
-      // Fluttertoast.showToast(
-      //     msg: "Please Fill All Details ",
-      //     toastLength: Toast.LENGTH_LONG,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1,
-      //     backgroundColor: Colors.white,
-      //     textColor: Colors.black,
-      //     fontSize: 16.0
-      // );
-      Toast.show("Please Fill All Details", duration: Toast.lengthShort, gravity:  Toast.bottom,backgroundColor: Colors.white,textStyle: TextStyle(color: Colors.black,fontSize: 16));
+      Fluttertoast.showToast(
+          msg: "Please Fill All Details ",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0
+      );
 
 
     }
@@ -82,16 +88,16 @@ class _MainHomePageState extends State<MainHomePage> {
       'token': mtoken.toString()
     };
     FirebaseFirestore.instance.collection('pdf').add(dataToSave);
-    // Fluttertoast.showToast(
-    //     msg: "PDF Sent Succesfully",
-    //     toastLength: Toast.LENGTH_LONG,
-    //     gravity: ToastGravity.BOTTOM,
-    //     timeInSecForIosWeb: 1,
-    //     backgroundColor: Colors.white,
-    //     textColor: Colors.black,
-    //     fontSize: 16.0
-    // );
-    Toast.show("PDF Sent Successfully", duration: Toast.lengthShort, gravity:  Toast.bottom,backgroundColor: Colors.white,textStyle: TextStyle(color: Colors.black,fontSize: 16));
+    Fluttertoast.showToast(
+        msg: "PDF Sent Succesfully",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16.0
+    );
+    // Toast.show("PDF Sent Successfully", duration: Toast.lengthShort, gravity:  Toast.bottom,backgroundColor: Colors.white,textStyle: TextStyle(color: Colors.black,fontSize: 16));
 
   }
 
@@ -131,26 +137,48 @@ class _MainHomePageState extends State<MainHomePage> {
     print("Uploaded");
     Navigator.of(context).pop();
 
-    // Fluttertoast.showToast(
-    //     msg: "PDF Uploaded Successfully",
-    //     toastLength: Toast.LENGTH_LONG,
-    //     gravity: ToastGravity.BOTTOM,
-    //     timeInSecForIosWeb: 1,
-    //     backgroundColor: Colors.white,
-    //     textColor: Colors.black,
-    //     fontSize: 16.0
-    // );
+    Fluttertoast.showToast(
+        msg: "PDF Uploaded Successfully",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16.0
+    );
   }
+
+
 
   @override
   void initState() {
     // TODO: implement initState
+    _upiIndia.getAllUpiApps(mandatoryTransactionId: false).then((value) {
+      setState(() {
+        apps = value;
+      });
+    }).catchError((e) {
+      apps = [];
+    });
+
     super.initState();
     getToken();
+
   }
   double screenWidth= 0;
   double screenHeigth = 0;
 
+
+  Future<UpiResponse> initiateTransaction(UpiApp app) async {
+    return _upiIndia.startTransaction(
+      app: app,
+      receiverUpiId: "dahiyapoojan2003@okhdfcbank",
+      receiverName: 'Poojan Dahiya',
+      transactionRefId: 'TestingUpiIndiaPlugin',
+      transactionNote: 'Not actual. Just an example.',
+      amount: 1.00,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
@@ -223,7 +251,7 @@ class _MainHomePageState extends State<MainHomePage> {
                   ),)
                 ],
               ),
-              SizedBox(height: 25,),
+              SizedBox(height: 35,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
@@ -247,7 +275,12 @@ class _MainHomePageState extends State<MainHomePage> {
                   ],
                 ),
               ),
-              SizedBox(height: 40,),
+              SizedBox(height: 30,),
+
+
+
+
+              SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -269,7 +302,9 @@ class _MainHomePageState extends State<MainHomePage> {
               ),
               SizedBox(height: 40,),
 
-              MyButton1(onTap: saveData, text: "Print PDF")
+              MyButton1(onTap: (){saveData();initiateTransaction(UpiApp.googlePay);}, text: "Pay Now !"),
+              //SizedBox(height: 20,),
+              // MyButton(onTap: ()  {initiateTransaction(UpiApp.googlePay);}, text: "Pay")
 
             ],
           ),

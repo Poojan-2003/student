@@ -56,8 +56,8 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   firebase_messaging: ^14.2.2
   toast: ^0.3.0
-#  fluttertoast: ^8.1.2
-
+  fluttertoast: ^8.2.1
+  upi_india: ^3.0.1
 
 
 dev_dependencies:
